@@ -14,3 +14,24 @@ bin/runAll.sh start
 ```
 
 ###5 A docker-compose.yml for TeamCity
+```
+services:
+  teamcity:
+    image: jetbrains/teamcity-server:10.0.1
+    volumes:
+      - ./data/server/datadir:/data/teamcity_server/datadir:/data/teamcity_server/datadir
+      - ./data/server/logs:/opt/teamcity/logs
+    ports:
+      - 8111:8111
+  teamcity-agent:
+    image: jetbrains/teamcity-agent:10.0.1
+    volumes:
+      - ./data/agent:/data/teamcity_agent/conf
+    environment:
+      SERVER_URL: http://teamcity:8111
+```
+
+###6 Starting TeamCity Docker Containers
+```
+docker-compose up -d teamcity
+```
